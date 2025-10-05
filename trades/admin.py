@@ -1,6 +1,6 @@
 from django.contrib import admin
-
-# Register your models here.
-from .models import Trade
+from .models import Trade,Strike, Transfer
 
 admin.site.register(Trade)
+admin.site.register(Strike)
+admin.site.register(Transfer)
