@@ -32,6 +32,19 @@ class TradeCreateSerializer(serializers.ModelSerializer):
             Strike.objects.create(trade=trade, **s)
         return trade
 
+    def update(self, instance, validated_data):
+        strikes_data = validated_data.pop("strikes", None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if strikes_data is not None:
+            instance.strikes.all().delete()
+            for s in strikes_data:
+                Strike.objects.create(trade=instance, **s)
+        
+        return instance
 
 class TransferSerializer(serializers.ModelSerializer):
     class Meta:
